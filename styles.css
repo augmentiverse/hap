@@ -56,7 +56,7 @@ button {
   font-weight: 800;
 }
 
-.session-active ~ .app-loaded-badge {
+.app-loaded-badge.hidden {
   display: none;
 }
 
