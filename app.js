@@ -31,6 +31,7 @@
 
   const els = {
     shell: $("#appShell"),
+    appLoadedBadge: $(".app-loaded-badge"),
     landing: $("#landing"),
     scene: $("#scene"),
     imageAnchor: $("#imageAnchor"),
@@ -77,6 +78,7 @@
   function setLandingVisible(visible) {
     els.landing.hidden = !visible;
     els.shell.classList.toggle("session-active", !visible);
+    els.appLoadedBadge.classList.toggle("hidden", !visible);
   }
 
   function applyPlacement() {
