@@ -381,9 +381,9 @@ body.xr-active .xr-overlay {
     align-content: start;
     overflow-y: auto;
     padding-top: 72px;
+    gap: 18px;
     background:
-      linear-gradient(180deg, rgba(12, 16, 22, 0.94), rgba(12, 16, 22, 0.76)),
-      url("cat-print-target.png") center top / 72% auto no-repeat,
+      linear-gradient(180deg, rgba(12, 16, 22, 0.98), rgba(12, 16, 22, 0.9)),
       var(--bg);
   }
 
@@ -396,8 +396,17 @@ body.xr-active .xr-overlay {
     gap: 12px;
   }
 
+  .preview-grid {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .mode-panel {
+    order: -1;
+  }
+
   .target-preview img {
-    max-height: 34vh;
+    max-height: 26vh;
   }
 
   .device-facts {
