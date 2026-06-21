@@ -7,12 +7,39 @@
     <title>Augmentiverse Cat AR</title>
     <link rel="manifest" href="site.webmanifest" />
     <link rel="stylesheet" href="styles.css" />
+    <style>
+      @media (max-width: 820px) {
+        .mode-panel {
+          position: fixed !important;
+          z-index: 100000 !important;
+          left: 12px !important;
+          right: 12px !important;
+          top: max(56px, env(safe-area-inset-top)) !important;
+          display: grid !important;
+          gap: 8px !important;
+          padding: 10px !important;
+          border-radius: 8px !important;
+          background: rgba(14, 18, 26, 0.94) !important;
+          box-shadow: 0 10px 30px rgba(0, 0, 0, 0.35) !important;
+        }
+
+        .mode-panel button {
+          min-height: 48px !important;
+          font-weight: 800 !important;
+        }
+
+        .target-preview {
+          margin-top: 270px !important;
+        }
+      }
+    </style>
     <script src="https://aframe.io/releases/1.5.0/aframe.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/mind-ar@1.2.5/dist/mindar-image-aframe.prod.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/aframe-extras@7.5.1/dist/aframe-extras.min.js"></script>
     <script defer src="app.js"></script>
   </head>
   <body>
+    <div class="app-loaded-badge">Cat AR app loaded</div>
     <main id="appShell" class="app-shell">
       <section id="landing" class="landing">
         <div class="brand-block">
