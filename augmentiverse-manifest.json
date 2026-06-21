@@ -1,0 +1,44 @@
+{
+  "name": "Augmentiverse Cat AR",
+  "version": "2.0.0",
+  "entry": "index.html",
+  "anchor": {
+    "type": "image-target",
+    "engine": "MindAR",
+    "sourceImage": "cat-print-target.png",
+    "compiledTarget": "targets.mind",
+    "targetIndex": 0
+  },
+  "augmentation": {
+    "type": "3d-model",
+    "format": "glb",
+    "file": "happy.glb"
+  },
+  "placement": {
+    "position": [0, 0, 0.08],
+    "rotation": [0, 0, 0],
+    "scale": [0.25, 0.25, 0.25],
+    "adjustable": true
+  },
+  "modes": [
+    {
+      "id": "phone-image-tracking",
+      "platforms": ["phone", "tablet"],
+      "runtime": "MindAR image tracking",
+      "requires": ["camera", "https-or-localhost"]
+    },
+    {
+      "id": "headset-webxr",
+      "platforms": ["Quest 3S", "Quest 3", "WebXR headset"],
+      "runtime": "WebXR",
+      "requires": ["webxr", "https"],
+      "fallback": "manual controller placement when image tracking is unavailable"
+    }
+  ],
+  "supportedViewers": [
+    "smartphone browser",
+    "tablet browser",
+    "Meta Quest Browser",
+    "WebXR-capable headset browser"
+  ]
+}

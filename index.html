@@ -1,0 +1,149 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+    <meta name="theme-color" content="#0c1016" />
+    <title>Augmentiverse Cat AR</title>
+    <link rel="manifest" href="site.webmanifest" />
+    <link rel="stylesheet" href="styles.css" />
+    <script src="https://aframe.io/releases/1.5.0/aframe.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/mind-ar@1.2.5/dist/mindar-image-aframe.prod.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/aframe-extras@7.5.1/dist/aframe-extras.min.js"></script>
+    <script defer src="app.js"></script>
+  </head>
+  <body>
+    <main id="appShell" class="app-shell">
+      <section id="landing" class="landing">
+        <div class="brand-block">
+          <p class="eyebrow">Image anchored WebAR</p>
+          <h1>Augmentiverse Cat AR</h1>
+          <p class="lede">
+            Scan the printed cat target on a phone, or open the headset mode on Quest 3S for
+            WebXR placement and compatibility checks.
+          </p>
+        </div>
+
+        <div class="preview-grid">
+          <figure class="target-preview">
+            <img src="cat-print-target.png" alt="Cat image target" />
+            <figcaption>Print this target, keep it flat, and scan it in good light.</figcaption>
+          </figure>
+
+          <div class="mode-panel">
+            <button id="startMobileAr" class="primary-action" type="button">
+              Start Phone AR
+            </button>
+            <button id="startHeadsetMode" class="secondary-action" type="button">
+              Enter Headset Mode
+            </button>
+            <button id="openTarget" class="text-action" type="button">
+              Show printable target
+            </button>
+            <label class="target-size-field">
+              Printed target width
+              <span>
+                <input id="targetWidthControl" type="number" min="4" max="60" step="0.5" value="12" />
+                cm
+              </span>
+            </label>
+            <dl class="device-facts">
+              <div>
+                <dt>Model</dt>
+                <dd>happy.glb</dd>
+              </div>
+              <div>
+                <dt>Anchor</dt>
+                <dd>targets.mind, index 0</dd>
+              </div>
+              <div>
+                <dt>Target size</dt>
+                <dd>Set printed width in settings</dd>
+              </div>
+            </dl>
+          </div>
+        </div>
+      </section>
+
+      <section id="targetSheet" class="target-sheet" hidden>
+        <div class="sheet-toolbar">
+          <button id="closeTarget" class="icon-button" type="button" aria-label="Close target">x</button>
+          <button id="printTarget" class="secondary-action compact" type="button">Print</button>
+        </div>
+        <img src="cat-print-target.png" alt="Printable cat target" />
+      </section>
+
+      <section id="statusPanel" class="status-panel" aria-live="polite">
+        <span id="statusDot" class="status-dot idle"></span>
+        <span id="statusText">Ready</span>
+      </section>
+
+      <section id="controls" class="controls" hidden>
+        <button id="stopAr" class="icon-button" type="button" aria-label="Stop AR">x</button>
+        <label>
+          Scale
+          <input id="scaleControl" type="range" min="0.05" max="2" step="0.01" value="0.25" />
+        </label>
+        <label>
+          Rotate
+          <input id="rotateControl" type="range" min="-180" max="180" step="1" value="0" />
+        </label>
+        <button id="resetPlacement" class="secondary-action compact" type="button">Reset</button>
+      </section>
+    </main>
+
+    <div id="xrOverlay" class="xr-overlay">
+      <button id="exitHeadset" class="icon-button" type="button" aria-label="Exit headset mode">x</button>
+      <span id="xrStatus">Use trigger to place the cat in front of you.</span>
+    </div>
+
+    <a-scene
+      id="scene"
+      class="ar-scene"
+      renderer="colorManagement: true; antialias: true; alpha: true"
+      embedded
+      vr-mode-ui="enabled: false"
+      mindar-image="imageTargetSrc: targets.mind; autoStart: false; uiScanning: no; filterMinCF: 0.0001; filterBeta: 0.001"
+      webxr="optionalFeatures: local-floor, bounded-floor, hit-test, dom-overlay, image-tracking; overlayElement: #xrOverlay">
+      <a-assets timeout="30000">
+        <a-asset-item id="happyModelAsset" src="happy.glb"></a-asset-item>
+        <img id="targetImageAsset" src="cat-print-target.png" crossorigin="anonymous" alt="" />
+      </a-assets>
+
+      <a-camera id="camera" position="0 0 0" look-controls="enabled: false"></a-camera>
+      <a-entity light="type: ambient; intensity: 1.25"></a-entity>
+      <a-entity light="type: directional; intensity: 1.2" position="0.5 1 0.8"></a-entity>
+
+      <a-entity id="imageAnchor" mindar-image-target="targetIndex: 0">
+        <a-entity id="mobilePlacement" class="placement-root">
+          <a-gltf-model
+            id="mobileModel"
+            src="#happyModelAsset"
+            position="0 0 0.08"
+            rotation="0 0 0"
+            scale="0.25 0.25 0.25"
+            animation-mixer>
+          </a-gltf-model>
+          <a-entity
+            position="0 -0.52 0.1"
+            text="value: Happy Cat; align: center; color: #ffffff; width: 1.8">
+          </a-entity>
+        </a-entity>
+      </a-entity>
+
+      <a-entity id="headsetRig" visible="false" position="0 1.25 -1.6">
+        <a-gltf-model
+          id="headsetModel"
+          src="#happyModelAsset"
+          position="0 0 0"
+          rotation="0 0 0"
+          scale="0.35 0.35 0.35"
+          animation-mixer>
+        </a-gltf-model>
+      </a-entity>
+
+      <a-entity id="leftHand" laser-controls="hand: left" raycaster="objects: .placement-root"></a-entity>
+      <a-entity id="rightHand" laser-controls="hand: right" raycaster="objects: .placement-root"></a-entity>
+    </a-scene>
+  </body>
+</html>

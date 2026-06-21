@@ -1,0 +1,19 @@
+{
+  "name": "Augmentiverse Cat AR",
+  "short_name": "Cat AR",
+  "description": "Image anchored WebAR for phones with WebXR headset mode.",
+  "start_url": "./index.html",
+  "scope": "./",
+  "display": "standalone",
+  "orientation": "any",
+  "background_color": "#0c1016",
+  "theme_color": "#0c1016",
+  "icons": [
+    {
+      "src": "cat-print-target.png",
+      "sizes": "1046x2158",
+      "type": "image/png",
+      "purpose": "any"
+    }
+  ]
+}
